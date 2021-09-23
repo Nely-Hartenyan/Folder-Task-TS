@@ -1,8 +1,10 @@
 import React, {FC} from "react";
-import { useParams } from "react-router-dom";
+import {useHistory, useParams} from "react-router-dom";
 import Form from "../Form/Form";
 import {IItem} from "../Type/Type";
 import Item from "../Items/Item";
+import ArrowBackIcon from '@material-ui/icons/ArrowBack';
+import ArrowForwardIcon from '@material-ui/icons/ArrowForward';
 
 interface IProps {
     items:IItem[];
@@ -11,11 +13,15 @@ interface IProps {
 const FolderItems:FC<IProps> = ( { items } ) => {
 
     const { Folderid } = useParams<{Folderid?: string}>()
+    const history = useHistory()
 
     const folders = items.filter((item:IItem)  => item.parent === Folderid )
 
     return(
         <div>
+
+            <ArrowBackIcon onClick = {() => history.goBack()}/>
+            <ArrowForwardIcon onClick = {() => history.goForward()}/>
             <Form items = { items }/>
             { folders.map( (item:IItem) => {
                 return (
