@@ -7,7 +7,6 @@ import DeleteIcon from '@material-ui/icons/Delete';
 import {useStyles} from "./TrashStyle";
 import RestoreFromTrashIcon from '@material-ui/icons/RestoreFromTrash';
 import {IItem} from "../Type/Type";
-;
 
 interface ITrashProp{
     trashItem:IItem;
