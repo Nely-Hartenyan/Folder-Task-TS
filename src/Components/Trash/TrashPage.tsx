@@ -2,7 +2,7 @@ import React, {FC, SyntheticEvent, useState} from "react";
 import {Button} from "@material-ui/core";
 import {useStyles} from "./TrashStyle";
 import {useDispatch} from "react-redux";
-import {deleteTrashItems, restoreTrashItem} from "../Redux/action.creator";
+import {deleteTrashItem, deleteTrashItems, restoreTrashItem} from "../Redux/action.creator";
 import {useHistory} from "react-router-dom";
 import Snackbar from "@material-ui/core/Snackbar";
 import {Alert} from "@material-ui/lab";
@@ -17,6 +17,7 @@ const TrashPage:FC<{trash:IItem[]; items:IItem[] }> = ({trash,items}) =>  {
     const [folderOpen, setFolderOpen] = useState(false);
     const [docOpen, setDocOpen] = useState(false);
     const [added, setAdded] = useState(false);
+    const [deleted,setDeleted]  = useState(false)
 
     const handleClose = (event:SyntheticEvent, reason:string) => {
         if (reason === 'timeout') {
@@ -24,7 +25,8 @@ const TrashPage:FC<{trash:IItem[]; items:IItem[] }> = ({trash,items}) =>  {
         }
         setFolderOpen(false);
         setDocOpen(false);
-        setAdded(false)
+        setAdded(false);
+        setDeleted(false)
     };
 
     const restoreItem = (trashItem:IItem) => {
@@ -47,6 +49,13 @@ const TrashPage:FC<{trash:IItem[]; items:IItem[] }> = ({trash,items}) =>  {
 
     const deleteTrash = () => {
         dispatch(deleteTrashItems())
+        setDeleted(true)
+    }
+
+    const deleteItem = (trashItem:IItem) => {
+        dispatch(deleteTrashItem(trashItem))
+        setDeleted(true)
+
     }
 
     const item = trash.filter((item) => item.status === true )
@@ -88,6 +97,17 @@ const TrashPage:FC<{trash:IItem[]; items:IItem[] }> = ({trash,items}) =>  {
                     Restored
                 </Alert>
             </Snackbar>
+            <Snackbar
+                open = {deleted}
+                onClose = {handleClose}
+                anchorOrigin = {{
+                    vertical: 'top',
+                    horizontal: 'right'
+                }}>
+                <Alert severity = "success">
+                    Deleted
+                </Alert>
+            </Snackbar>
 
             <div>
                 {item.map((item) => {
@@ -96,6 +116,7 @@ const TrashPage:FC<{trash:IItem[]; items:IItem[] }> = ({trash,items}) =>  {
                             key = {item.id}
                             trashItem = {item}
                             restoreItem = {restoreItem}
+                            deleteItem={deleteItem}
                         />
                     )
                 })}
