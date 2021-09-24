@@ -3,15 +3,15 @@ import {Button} from "@material-ui/core";
 import {useStyles} from "../Form/FormStyle";
 import {useHistory, useParams} from "react-router-dom";
 import {useDispatch} from "react-redux";
-import {addDocText} from "../Redux/action.creator";
+import {addDocText} from "../../Redux/action.creator";
 import Snackbar from "@material-ui/core/Snackbar";
 import {Alert} from "@material-ui/lab";
 import {IItem} from "../Type/Type";
+import ArrowBackIcon from "@material-ui/icons/ArrowBack";
 
 const TextItem:FC<{items:IItem[]}> = ({items}) => {
 
     const {Docid} = useParams<{Docid?: string}>()
-    console.log(Docid)
     const classes = useStyles();
     const history = useHistory();
     const dispatch = useDispatch();
@@ -26,7 +26,6 @@ const TextItem:FC<{items:IItem[]}> = ({items}) => {
 
     const addText = () => {
         const newDocText:IItem = {text: input, id: Number(Docid)}
-        console.log(newDocText)
         dispatch(addDocText(newDocText));
         setText(true)
     }
@@ -48,19 +47,21 @@ const TextItem:FC<{items:IItem[]}> = ({items}) => {
                     vertical: 'top',
                     horizontal: 'right'
                 }}>
-                <Alert severity = "success" >
+                <Alert severity = "success">
                     Text added
                 </Alert>
             </Snackbar>
+            <ArrowBackIcon onClick = { () => history.goBack()}/>
             <div>
-    <textarea
-        id = ""
-        cols = {100}
-        rows = {20}
-        defaultValue = {item?.text}
-        onChange={changeInput}
-    />
+                <textarea
+                     id = ""
+                     cols = {100}
+                     rows = {20}
+                     defaultValue = {item?.text}
+                     onChange = {changeInput}
+                />
             </div>
+
             <Button
                 variant = "contained"
                 color = "primary"
@@ -73,7 +74,7 @@ const TextItem:FC<{items:IItem[]}> = ({items}) => {
                 variant = "contained"
                 color = "primary"
                 className = {classes.btn}
-                onClick = {() => history.push(`/`)}
+                onClick = { () => history.push(`/`)}
             >
                 Home
             </Button>

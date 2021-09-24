@@ -6,10 +6,12 @@ import {useStyles} from "./ItemStyle";
 import {useHistory} from "react-router-dom";
 import DeleteIcon from '@material-ui/icons/Delete';
 import {useDispatch} from "react-redux";
-import {deleteItem} from "../Redux/action.creator";
+import {deleteItem} from "../../Redux/action.creator";
 import {IItem} from "../Type/Type";
 
-const Item:FC<{item:IItem}> = ({item}) => {
+interface ItemProps {item:IItem}
+
+const Item:FC<ItemProps> = ({item}) => {
 
     const classes = useStyles();
     const history = useHistory();

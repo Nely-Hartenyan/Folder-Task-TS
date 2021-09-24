@@ -1,5 +1,5 @@
 import Types from "./action.type";
-import {IItem} from "../Type/Type";
+import {IItem} from "../Components/Type/Type";
 
 
 export function addNewFolder (payload:IItem) {

@@ -1,5 +1,5 @@
 import Types from "./action.type";
-import {defaultStateType, action, IItem} from "../Type/Type";
+import {defaultStateType, action, IItem} from "../Components/Type/Type";
 
 
 const defaultState:defaultStateType = {
@@ -31,12 +31,12 @@ export const Reducer = (state:defaultStateType= defaultState, action:action) => 
             return {...state, items: [...state.items, action.payload]}
 
         case Types.ADD_DOC_TEXT:
-           state.items.map( (item) => {
+           const newItems = state.items.map( (item) => {
                 if (item?.id === action?.payload.id)
-                    return item.text = action.payload.text;
+                    return {...item, text:action.payload.text}
                 return item
             })
-            return {...state, items: [...state.items]}
+            return {...state, items: newItems}
 
         case Types.DELETE_ITEM:
             const trashFiles:IItem[] = [];

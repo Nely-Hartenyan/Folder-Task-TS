@@ -3,7 +3,7 @@ import { Button, TextField } from "@material-ui/core";
 import { useStyles } from './FormStyle'
 import { useDispatch } from "react-redux";
 import { useHistory, useLocation, useParams } from "react-router-dom";
-import { addNewDoc, addNewFolder } from "../Redux/action.creator";
+import { addNewDoc, addNewFolder } from "../../Redux/action.creator";
 import { Alert } from "@material-ui/lab";
 import Snackbar from '@material-ui/core/Snackbar';
 import {IItem} from "../Type/Type";

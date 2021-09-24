@@ -2,7 +2,7 @@ import {createStore} from "redux";
 
 import {composeWithDevTools} from "redux-devtools-extension";
 import {Reducer} from "./reducer";
-import {defaultStateType} from "../Type/Type";
+import {defaultStateType} from "../Components/Type/Type";
 
 function saveToLocalStorage(state:defaultStateType) {
     try {
