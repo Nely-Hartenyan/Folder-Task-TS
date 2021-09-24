@@ -30,8 +30,8 @@ const TrashPage:FC<{trash:IItem[]; items:IItem[] }> = ({trash,items}) =>  {
     };
 
     const restoreItem = (trashItem:IItem) => {
-        const existsFolder = items.some((item) => item.label === trashItem.label &&  trashItem.filter === 'folder'  && item.filter === 'folder')
-        const existsDoc = items.some((item) => item.label === trashItem.label && trashItem.filter === 'doc' && item.filter === 'doc')
+        const existsFolder = items.some((item) => item.label === trashItem.label &&  trashItem.type === 'folder'  && item.type === 'folder')
+        const existsDoc = items.some((item) => item.label === trashItem.label && trashItem.type === 'doc' && item.type === 'doc')
 
         if (existsFolder) {
             setFolderOpen(true)

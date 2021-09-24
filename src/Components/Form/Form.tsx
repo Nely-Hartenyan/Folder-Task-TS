@@ -28,12 +28,12 @@ import {IItem} from "../Type/Type";
         }
         else if (input.length !== 0) {
             if (path.length === 0) {
-                const newFolder = {id: Date.now(), label: input, status: false, filter: 'folder', parent: '0'}
+                const newFolder = {id: Date.now(), label: input, status: false, type: 'folder', parent: '0'}
                 dispatch(addNewFolder(newFolder));
                 setInput('')
 
             } else {
-                const newFolder = {id: Date.now(), label: input, status: false, filter: 'folder', parent: Folderid}
+                const newFolder = {id: Date.now(), label: input, status: false, type: 'folder', parent: Folderid}
                 dispatch(addNewFolder(newFolder));
                 setInput('')
             }
@@ -47,12 +47,12 @@ import {IItem} from "../Type/Type";
         else if (input.length !== 0)
         {
             if (path.length === 0) {
-                const newDoc = {id: Date.now(), label: input, status: false, filter: 'doc', parent: '0', text:''}
+                const newDoc = {id: Date.now(), label: input, status: false, type: 'doc', parent: '0', text:''}
                 dispatch(addNewDoc(newDoc));
                 setInput('')
 
             } else {
-                const newDoc = {id: Date.now(), label: input, status: false, filter: 'doc', parent: Folderid, text:''}
+                const newDoc = {id: Date.now(), label: input, status: false, type: 'doc', parent: Folderid, text:''}
                 dispatch(addNewDoc(newDoc));
                 setInput('')
             }

@@ -17,7 +17,7 @@ const TrashItem:FC<ITrashProp> = ({trashItem, restoreItem= () => null, deleteIte
 
     const classes = useStyles();
 
-    if (trashItem.filter === 'folder')
+    if (trashItem.type === 'folder')
         return <Card className = {classes.root} >
             <CardActionArea>
                 <CardMedia title = "Contemplative Reptile">
@@ -43,7 +43,7 @@ const TrashItem:FC<ITrashProp> = ({trashItem, restoreItem= () => null, deleteIte
             </CardActionArea>
         </Card>
 
-    else if (trashItem.filter === 'doc')
+    else if (trashItem.type === 'doc')
         return <Card className = {classes.root}>
             <CardActionArea>
                 <CardMedia title ="Contemplative Reptile">

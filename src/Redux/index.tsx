@@ -2,9 +2,9 @@ import {createStore} from "redux";
 
 import {composeWithDevTools} from "redux-devtools-extension";
 import {Reducer} from "./reducer";
-import {defaultStateType} from "../Components/Type/Type";
+import {DefaultStateType} from "../Components/Type/Type";
 
-function saveToLocalStorage(state:defaultStateType) {
+function saveToLocalStorage(state:DefaultStateType) {
     try {
         const serialisedState = JSON.stringify(state);
         localStorage.setItem("persistantState", serialisedState);

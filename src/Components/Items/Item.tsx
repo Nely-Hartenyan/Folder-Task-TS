@@ -24,7 +24,7 @@ const Item:FC<ItemProps> = ({item}) => {
     return (
         <>
         {
-            item.filter === 'folder' &&
+            item.type === 'folder' &&
                 <Card className={classes.root}>
                     <CardActionArea>
                         <CardMedia
@@ -50,7 +50,7 @@ const Item:FC<ItemProps> = ({item}) => {
                 </Card>
         }
         {
-            item.filter === 'doc' &&
+            item.type === 'doc' &&
             <Card className={classes.root}>
                 <CardActionArea>
                     <CardMedia

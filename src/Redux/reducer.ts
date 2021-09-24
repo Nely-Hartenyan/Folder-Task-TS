@@ -1,17 +1,17 @@
 import Types from "./action.type";
-import {defaultStateType, action, IItem} from "../Components/Type/Type";
+import {DefaultStateType, Action, IItem} from "../Components/Type/Type";
 
 
-const defaultState:defaultStateType = {
+const defaultState:DefaultStateType = {
     items:[],
     trashItems:[],
 }
 
-export const Reducer = (state:defaultStateType= defaultState, action:action) => {
+export const Reducer = (state:DefaultStateType= defaultState, action:Action) => {
     switch (action.type){
 
         case Types.ADD_NEW_FOLDER:
-            const existsFolder = state.items.some(item => item.filter === action.payload.filter
+            const existsFolder = state.items.some(item => item.type === action.payload.type
                 && item.label === action.payload.label
                 &&  item.parent === action.payload.parent)
 
@@ -22,7 +22,7 @@ export const Reducer = (state:defaultStateType= defaultState, action:action) => 
 
         case Types.ADD_NEW_DOC:
             const existsDoc = state.items.some(item => item.label === action.payload.label
-                && item.filter === action.payload.filter
+                && item.type === action.payload.type
                 && item.parent === action.payload.parent );
 
             if( existsDoc ){
@@ -44,7 +44,7 @@ export const Reducer = (state:defaultStateType= defaultState, action:action) => 
                 for (let i = 0; i < state.items.length; i++) {
                     if (Number(state.items[i].parent)=== fileId) {
                         const fileID = state.items[i].id;
-                        const fileType = state.items[i].filter;
+                        const fileType = state.items[i].type;
                         const item = state.items.splice(i, 1);
                         trashFiles.push(item[0]);
                         i = i - 1;
@@ -75,7 +75,7 @@ export const Reducer = (state:defaultStateType= defaultState, action:action) => 
                 for (let i = 0; i < state.trashItems.length; i++) {
                     if (Number(state.trashItems[i].parent)=== fileId) {
                         const fileID = state.trashItems[i].id;
-                        const fileType = state.trashItems[i].filter;
+                        const fileType = state.trashItems[i].type;
                         const item = state.trashItems.splice(i, 1);
                         deleteFiles.push(item[0]);
                         i = i - 1;
@@ -106,7 +106,7 @@ export const Reducer = (state:defaultStateType= defaultState, action:action) => 
                 for (let i = 0; i < state.trashItems.length; i++) {
                     if (Number(state.trashItems[i].parent)=== fileId) {
                         const fileID = state.trashItems[i].id;
-                        const fileType = state.trashItems[i].filter;
+                        const fileType = state.trashItems[i].type;
                         const item = state.trashItems.splice(i, 1);
                         restoreFiles.push(item[0]);
                         i = i - 1;

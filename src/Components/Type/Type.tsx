@@ -2,17 +2,17 @@ export interface IItem{
     id:number,
     label?:string,
     status?:boolean,
-    filter?:string,
+    type?:string,
     parent?:string,
     text?:string
 }
 
-export interface defaultStateType{
+export interface DefaultStateType{
     items:IItem[];
     trashItems:IItem[];
 }
 
-export interface action{
+export interface Action{
     type:string,
     payload:IItem
 }

@@ -4,13 +4,13 @@ import TextItem from "./Components/FolderAndTextItems/TextItems";
 import FolderItems from "./Components/FolderAndTextItems/FolderItems";
 import { useSelector } from "react-redux";
 import TrashPage from "./Components/Trash/TrashPage"
-import {defaultStateType} from "./Components/Type/Type";
+import {DefaultStateType} from "./Components/Type/Type";
 import {FC} from "react";
 
 const App:FC = () => {
 
-    const {items} = useSelector((state:defaultStateType) => state);
-    const {trashItems} = useSelector((state:defaultStateType) => state);
+    const {items} = useSelector((state:DefaultStateType) => state);
+    const {trashItems} = useSelector((state:DefaultStateType) => state);
 
     return (
         <div>
