@@ -6,8 +6,8 @@ import {useStyles} from "./ItemStyle";
 import {useHistory} from "react-router-dom";
 import DeleteIcon from '@material-ui/icons/Delete';
 import {useDispatch} from "react-redux";
-import {deleteItem} from "../../Redux/action.creator";
 import {IItem} from "../Type/Type";
+import {deleteItem} from "../../Toolkit/toolkitReducer";
 
 interface ItemProps {item:IItem}
 

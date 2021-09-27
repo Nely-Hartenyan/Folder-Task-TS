@@ -1,61 +1,62 @@
-import Types from "./action.type";
-import {DefaultStateType, Action, IItem} from "../Components/Type/Type";
-
+import {createSlice} from "@reduxjs/toolkit";
+import {Action, DefaultStateType, IItem} from "../Components/Type/Type";
 
 const defaultState:DefaultStateType = {
     items:[],
     trashItems:[],
 }
 
-export const Reducer = (state:DefaultStateType= defaultState, action:Action) => {
-    switch (action.type){
-
-        case Types.ADD_NEW_FOLDER:
+const toolkitReducer = createSlice({
+    name:'fileFolder',
+    initialState:defaultState,
+    reducers:{
+        addNewFolder(state, action:Action){
             const existsFolder = state.items.some(item => item.type === action.payload.type
                 && item.label === action.payload.label
                 &&  item.parent === action.payload.parent)
 
             if ( existsFolder ){
-                return {...state}
+                return state
             }
-            return { ...state, items: [...state.items, action.payload]}
-
-        case Types.ADD_NEW_DOC:
+            state.items.push(action.payload)
+        },
+        addNewDoc(state,action:Action){
             const existsDoc = state.items.some(item => item.label === action.payload.label
                 && item.type === action.payload.type
                 && item.parent === action.payload.parent );
 
             if( existsDoc ){
-                return {...state}
+                return state
             }
-            return {...state, items: [...state.items, action.payload]}
-
-        case Types.ADD_DOC_TEXT:
-           const newItems = state.items.map( (item) => {
+            state.items.push(action.payload)
+        },
+        addDocText(state, action:Action){
+            state.items = state.items.map( (item) => {
                 if (item?.id === action?.payload.id)
                     return {...item, text:action.payload.text}
                 return item
             })
-            return {...state, items: newItems}
-
-        case Types.DELETE_ITEM:
+        },
+        deleteItem(state,action:Action){
             const trashFiles:IItem[] = [];
-            const trashRecursFunc = (fileId:number) => {
+            const trashRecursF = (fileId:number) => {
                 for (let i = 0; i < state.items.length; i++) {
                     if (Number(state.items[i].parent)=== fileId) {
                         const fileID = state.items[i].id;
                         const fileType = state.items[i].type;
                         const item = state.items.splice(i, 1);
+                        console.log(item)
+
                         trashFiles.push(item[0]);
                         i = i - 1;
                         if (fileType === "folder") {
-                            trashRecursFunc(fileID);
+                            trashRecursF(fileID);
                         }
                     }
                 }
             };
-            trashRecursFunc(action.payload.id);
-            const endFile = state.items.filter((item) => {
+            trashRecursF(action.payload.id);
+            state.items = state.items.filter((item) => {
                 if (item.id === action.payload.id) {
                     item.status = true
                     trashFiles.push(item);
@@ -63,13 +64,10 @@ export const Reducer = (state:DefaultStateType= defaultState, action:Action) => 
                 }
                 return true;
             });
-            return {
-                ...state,
-                items: endFile,
-                trashItems: [...trashFiles, ...state.trashItems],
-            };
+            state.trashItems= state.trashItems.concat(trashFiles)
+        },
 
-        case Types.DELETE_TRASH_ITEM:{
+        deleteTrashItem(state, action:Action){
             const deleteFiles:IItem[] = [];
             const deleteRecursFunc = (fileId:number) => {
                 for (let i = 0; i < state.trashItems.length; i++) {
@@ -86,7 +84,7 @@ export const Reducer = (state:DefaultStateType= defaultState, action:Action) => 
                 }
             };
             deleteRecursFunc(action.payload.id);
-            const endTrash = state.trashItems.filter((item) => {
+            state.trashItems = state.trashItems.filter((item) => {
                 if (item.id === action.payload.id) {
                     item.status = false
                     deleteFiles.push(item);
@@ -94,13 +92,8 @@ export const Reducer = (state:DefaultStateType= defaultState, action:Action) => 
                 }
                 return true;
             });
-            return {
-                ...state,
-                trashItems: endTrash,
-            };
-        }
-
-        case Types.RESTORE_TRASH_ITEM:
+        },
+        restoreTrashItem(state, action:Action){
             const restoreFiles:IItem[] = [];
             const restoreRecursFunc = (fileId:number) => {
                 for (let i = 0; i < state.trashItems.length; i++) {
@@ -108,6 +101,8 @@ export const Reducer = (state:DefaultStateType= defaultState, action:Action) => 
                         const fileID = state.trashItems[i].id;
                         const fileType = state.trashItems[i].type;
                         const item = state.trashItems.splice(i, 1);
+                        console.log(item)
+
                         restoreFiles.push(item[0]);
                         i = i - 1;
                         if (fileType === "folder") {
@@ -117,7 +112,7 @@ export const Reducer = (state:DefaultStateType= defaultState, action:Action) => 
                 }
             };
             restoreRecursFunc(action.payload.id);
-            const endTrash = state.trashItems.filter((item) => {
+            state.trashItems = state.trashItems.filter((item) => {
                 if (item.id === action.payload.id) {
                     item.status = false
                     restoreFiles.push(item);
@@ -125,16 +120,13 @@ export const Reducer = (state:DefaultStateType= defaultState, action:Action) => 
                 }
                 return true;
             });
-            return {
-                ...state,
-                items: [...restoreFiles, ...state.items],
-                trashItems: endTrash,
-            };
-
-        case Types.DELETE_TRASH:
-            return { ...state, trashItems: []}
-
-        default:
-            return state
+            state.items = state.items.concat(restoreFiles)
+        },
+        deleteTrashItems(state){
+            state.trashItems = [];
+        }
     }
-}
+})
+
+export default toolkitReducer.reducer;
+export const {addNewFolder, addNewDoc, addDocText, deleteTrashItems, restoreTrashItem, deleteTrashItem, deleteItem} = toolkitReducer.actions

@@ -8,11 +8,12 @@ export interface IItem{
 }
 
 export interface DefaultStateType{
-    items:IItem[];
-    trashItems:IItem[];
+        items: IItem[],
+        trashItems: IItem[]
 }
 
 export interface Action{
     type:string,
     payload:IItem
 }
+

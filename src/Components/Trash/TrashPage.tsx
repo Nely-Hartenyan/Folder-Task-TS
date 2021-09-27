@@ -2,12 +2,13 @@ import React, {FC, SyntheticEvent, useState} from "react";
 import {Button} from "@material-ui/core";
 import {useStyles} from "./TrashStyle";
 import {useDispatch} from "react-redux";
-import {deleteTrashItem, deleteTrashItems, restoreTrashItem} from "../../Redux/action.creator";
+
 import {useHistory} from "react-router-dom";
 import Snackbar from "@material-ui/core/Snackbar";
 import {Alert} from "@material-ui/lab";
 import {IItem} from "../Type/Type";
 import TrashItem from "./TrashItem";
+import {deleteTrashItem, deleteTrashItems, restoreTrashItem} from "../../Toolkit/toolkitReducer";
 
 const TrashPage:FC<{trash:IItem[]; items:IItem[] }> = ({trash,items}) =>  {
 

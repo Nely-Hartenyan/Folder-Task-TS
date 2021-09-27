@@ -3,23 +3,23 @@ import { Button, TextField } from "@material-ui/core";
 import { useStyles } from './FormStyle'
 import { useDispatch } from "react-redux";
 import { useHistory, useLocation, useParams } from "react-router-dom";
-import { addNewDoc, addNewFolder } from "../../Redux/action.creator";
 import { Alert } from "@material-ui/lab";
 import Snackbar from '@material-ui/core/Snackbar';
 import {IItem} from "../Type/Type";
+import {addNewDoc, addNewFolder} from "../../Toolkit/toolkitReducer";
 
  const Form:FC<{items:IItem[]}> = ( { items } ) => {
 
     const classes = useStyles();
     const dispatch = useDispatch();
-     const history = useHistory()
+    const history = useHistory()
     const { Folderid } = useParams<{Folderid?: string}>();
     const { pathname } = useLocation();
     const pathInArray = pathname.split("/")
     const path = pathInArray.splice(2, pathInArray.length - 1)
     const [folderOpen, setFolderOpen] = useState(false);
     const [docOpen, setDocOpen] = useState(false);
-     const [input, setInput] = useState('');
+    const [input, setInput] = useState('');
 
     const addFolder = () => {
 
