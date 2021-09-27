@@ -2,7 +2,7 @@ export interface IItem{
     id:number,
     label?:string,
     status?:boolean,
-    type?:string,
+    type?:typeOfItem,
     parent?:string,
     text?:string
 }
@@ -17,3 +17,7 @@ export interface Action{
     payload:IItem
 }
 
+export enum typeOfItem {
+    folder = 'folder',
+    doc = 'doc'
+}

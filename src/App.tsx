@@ -12,7 +12,6 @@ const App:FC = () => {
     const {items} = useSelector((state:RootState) => state.fileFolder);
     const {trashItems} = useSelector((state:RootState) => state.fileFolder);
 
-
     return (
         <div>
             <Switch>
@@ -22,7 +21,7 @@ const App:FC = () => {
                 <Route path = '/folder/:Folderid'>
                     <FolderItems items= { items }/>
                 </Route>
-                <Route path = '/text/:Docid'>
+                <Route path = '/doc/:Docid'>
                     <TextItem items = {items}/>
                 </Route>
                 <Route path = '/trash'>

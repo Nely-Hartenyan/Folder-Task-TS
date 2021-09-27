@@ -5,12 +5,10 @@ import {IItem} from "../Type/Type";
 import Item from "../Items/Item";
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 import ArrowForwardIcon from '@material-ui/icons/ArrowForward';
+import {FolderProps} from "./Type";
 
-interface IProps {
-    items:IItem[];
-}
 
-const FolderItems:FC<IProps> = ( { items } ) => {
+const FolderItems:FC<FolderProps> = ( { items } ) => {
 
     const { Folderid } = useParams<{Folderid?: string}>()
     const history = useHistory()
@@ -33,7 +31,6 @@ const FolderItems:FC<IProps> = ( { items } ) => {
             })}
 
         </div>
-)
-}
+) }
 
 export default FolderItems;

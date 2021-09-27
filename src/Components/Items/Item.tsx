@@ -1,20 +1,17 @@
 import React, {FC} from "react";
-import FolderIcon from '@material-ui/icons/Folder';
-import DescriptionIcon from '@material-ui/icons/Description';
-import {Card, CardActionArea, CardContent, CardMedia, Typography} from "@material-ui/core";
+import {Card, CardActionArea, CardContent, Typography} from "@material-ui/core";
 import {useStyles} from "./ItemStyle";
-import {useHistory} from "react-router-dom";
 import DeleteIcon from '@material-ui/icons/Delete';
 import {useDispatch} from "react-redux";
 import {IItem} from "../Type/Type";
 import {deleteItem} from "../../Toolkit/toolkitReducer";
+import Icon from "./Icon";
+import {ItemProps} from "./Type";
 
-interface ItemProps {item:IItem}
 
 const Item:FC<ItemProps> = ({item}) => {
 
     const classes = useStyles();
-    const history = useHistory();
     const dispatch = useDispatch()
 
     const trashItem =  (item:IItem) => {
@@ -22,44 +19,10 @@ const Item:FC<ItemProps> = ({item}) => {
     }
 
     return (
-        <>
-        {
-            item.type === 'folder' &&
-                <Card className={classes.root}>
-                    <CardActionArea>
-                        <CardMedia
-                            title = "Contemplative Reptile"
-                            onClick = {() => history.push(`/folder/${item.id}`)}
-                        >
-                            <FolderIcon className={classes.icon}/>
-                        </CardMedia>
-
-                        <CardContent className = {classes.cardContent}>
-                            <Typography
-                                gutterBottom variant = "h5"
-                                component = "h2"
-                            >
-                                {item.label}
-                            </Typography>
-                            <DeleteIcon
-                                className = {classes.deleteIcon}
-                                onClick = { () => trashItem(item)}
-                            />
-                        </CardContent>
-                    </CardActionArea>
-                </Card>
-        }
-        {
-            item.type === 'doc' &&
+      <>
             <Card className={classes.root}>
                 <CardActionArea>
-                    <CardMedia
-                        title = "Contemplative Reptile"
-                        onClick = { () => history.push(`/text/${item.id}`)}
-                    >
-                        <DescriptionIcon className = {classes.icon}/>
-                    </CardMedia>
-
+                    <Icon item = {item} />
                     <CardContent className = {classes.cardContent}>
                         <Typography
                             gutterBottom variant = "h5"
@@ -74,8 +37,7 @@ const Item:FC<ItemProps> = ({item}) => {
                     </CardContent>
                 </CardActionArea>
             </Card>
-    }
-        </>
+          </>
     )
 }
 

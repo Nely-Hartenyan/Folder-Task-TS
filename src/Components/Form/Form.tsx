@@ -1,14 +1,15 @@
 import React, {FC, SyntheticEvent, useState} from "react";
 import { Button, TextField } from "@material-ui/core";
-import { useStyles } from './FormStyle'
 import { useDispatch } from "react-redux";
 import { useHistory, useLocation, useParams } from "react-router-dom";
 import { Alert } from "@material-ui/lab";
 import Snackbar from '@material-ui/core/Snackbar';
-import {IItem} from "../Type/Type";
 import {addNewDoc, addNewFolder} from "../../Toolkit/toolkitReducer";
+import {FormProps} from "./Type";
+import {typeOfItem} from "../Type/Type";
+import {useStyles} from "./FormStyle";
 
- const Form:FC<{items:IItem[]}> = ( { items } ) => {
+ const Form:FC<FormProps> = ( { items } ) => {
 
     const classes = useStyles();
     const dispatch = useDispatch();
@@ -28,12 +29,12 @@ import {addNewDoc, addNewFolder} from "../../Toolkit/toolkitReducer";
         }
         else if (input.length !== 0) {
             if (path.length === 0) {
-                const newFolder = {id: Date.now(), label: input, status: false, type: 'folder', parent: '0'}
+                const newFolder = {id: Date.now(), label: input, status: false, type: typeOfItem.folder, parent: '0'}
                 dispatch(addNewFolder(newFolder));
                 setInput('')
 
             } else {
-                const newFolder = {id: Date.now(), label: input, status: false, type: 'folder', parent: Folderid}
+                const newFolder = {id: Date.now(), label: input, status: false, type: typeOfItem.folder, parent: Folderid}
                 dispatch(addNewFolder(newFolder));
                 setInput('')
             }
@@ -47,12 +48,12 @@ import {addNewDoc, addNewFolder} from "../../Toolkit/toolkitReducer";
         else if (input.length !== 0)
         {
             if (path.length === 0) {
-                const newDoc = {id: Date.now(), label: input, status: false, type: 'doc', parent: '0', text:''}
+                const newDoc = {id: Date.now(), label: input, status: false, type: typeOfItem.doc, parent: '0', text:''}
                 dispatch(addNewDoc(newDoc));
                 setInput('')
 
             } else {
-                const newDoc = {id: Date.now(), label: input, status: false, type: 'doc', parent: Folderid, text:''}
+                const newDoc = {id: Date.now(), label: input, status: false, type: typeOfItem.doc, parent: Folderid, text:''}
                 dispatch(addNewDoc(newDoc));
                 setInput('')
             }

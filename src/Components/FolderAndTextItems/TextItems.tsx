@@ -8,8 +8,10 @@ import {Alert} from "@material-ui/lab";
 import {IItem} from "../Type/Type";
 import ArrowBackIcon from "@material-ui/icons/ArrowBack";
 import {addDocText} from "../../Toolkit/toolkitReducer";
+import {TextProps} from "./Type";
 
-const TextItem:FC<{items:IItem[]}> = ({items}) => {
+
+const TextItem:FC<TextProps> = ({items}) => {
 
     const {Docid} = useParams<{Docid?: string}>()
     const classes = useStyles();
@@ -52,6 +54,7 @@ const TextItem:FC<{items:IItem[]}> = ({items}) => {
                 </Alert>
             </Snackbar>
             <ArrowBackIcon onClick = { () => history.goBack()}/>
+
             <div>
                 <textarea
                      id = ""

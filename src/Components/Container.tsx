@@ -5,7 +5,9 @@ import Item from "./Items/Item";
 import ArrowForwardIcon from "@material-ui/icons/ArrowForward";
 import {useHistory} from "react-router-dom";
 
-const Container:FC<{items:IItem[]}> = ( { items } ) => {
+interface ContainerProps{ items:IItem[] }
+
+const Container:FC<ContainerProps> = ( { items } ) => {
 
     const history = useHistory()
     const item = items.filter( (item:IItem) => item.parent === '0')

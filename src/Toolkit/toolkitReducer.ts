@@ -45,7 +45,6 @@ const toolkitReducer = createSlice({
                         const fileID = state.items[i].id;
                         const fileType = state.items[i].type;
                         const item = state.items.splice(i, 1);
-                        console.log(item)
 
                         trashFiles.push(item[0]);
                         i = i - 1;
