@@ -46,6 +46,7 @@ const TrashPage:FC<TrashProps> = ({trash,items}) =>  {
             dispatch(restoreTrashItem(trashItem))
             setAdded(true)
         }
+
     }
 
     const deleteTrash = () => {

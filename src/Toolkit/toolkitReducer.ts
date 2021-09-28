@@ -1,15 +1,34 @@
 import {createSlice} from "@reduxjs/toolkit";
 import {Action, DefaultStateType, IItem} from "../Components/Type/Type";
 
-const defaultState:DefaultStateType = {
+const initialState = {
     items:[],
     trashItems:[],
-}
+} as DefaultStateType
+
+let restoreOrDeleteFiles:IItem[] = [];
+
+const recursFunc = (fileId:number, s:IItem[]) => {
+    for (let i = 0; i < s.length; i++) {
+        if (Number(s[i].parent)=== fileId) {
+            const fileID = s[i].id;
+            const fileType = s[i].type;
+            const item = s.splice(i, 1);
+
+            restoreOrDeleteFiles.push(item[0]);
+            i = i - 1;
+            if (fileType === "folder") {
+                recursFunc(fileID,s);
+            }
+        }
+    }
+};
 
 const toolkitReducer = createSlice({
     name:'fileFolder',
-    initialState:defaultState,
+    initialState,
     reducers:{
+
         addNewFolder(state, action:Action){
             const existsFolder = state.items.some(item => item.type === action.payload.type
                 && item.label === action.payload.label
@@ -20,6 +39,7 @@ const toolkitReducer = createSlice({
             }
             state.items.push(action.payload)
         },
+
         addNewDoc(state,action:Action){
             const existsDoc = state.items.some(item => item.label === action.payload.label
                 && item.type === action.payload.type
@@ -30,6 +50,7 @@ const toolkitReducer = createSlice({
             }
             state.items.push(action.payload)
         },
+
         addDocText(state, action:Action){
             state.items = state.items.map( (item) => {
                 if (item?.id === action?.payload.id)
@@ -37,90 +58,51 @@ const toolkitReducer = createSlice({
                 return item
             })
         },
-        deleteItem(state,action:Action){
-            const trashFiles:IItem[] = [];
-            const trashRecursF = (fileId:number) => {
-                for (let i = 0; i < state.items.length; i++) {
-                    if (Number(state.items[i].parent)=== fileId) {
-                        const fileID = state.items[i].id;
-                        const fileType = state.items[i].type;
-                        const item = state.items.splice(i, 1);
 
-                        trashFiles.push(item[0]);
-                        i = i - 1;
-                        if (fileType === "folder") {
-                            trashRecursF(fileID);
-                        }
-                    }
-                }
-            };
-            trashRecursF(action.payload.id);
+        deleteItem(state,action:Action){
+
+            recursFunc(action.payload.id, state.items);
             state.items = state.items.filter((item) => {
                 if (item.id === action.payload.id) {
                     item.status = true
-                    trashFiles.push(item);
+                    restoreOrDeleteFiles.push(item);
                     return false;
                 }
                 return true;
             });
-            state.trashItems= state.trashItems.concat(trashFiles)
+            state.trashItems = state.trashItems.concat(restoreOrDeleteFiles)
+            restoreOrDeleteFiles = []
         },
 
         deleteTrashItem(state, action:Action){
-            const deleteFiles:IItem[] = [];
-            const deleteRecursFunc = (fileId:number) => {
-                for (let i = 0; i < state.trashItems.length; i++) {
-                    if (Number(state.trashItems[i].parent)=== fileId) {
-                        const fileID = state.trashItems[i].id;
-                        const fileType = state.trashItems[i].type;
-                        const item = state.trashItems.splice(i, 1);
-                        deleteFiles.push(item[0]);
-                        i = i - 1;
-                        if (fileType === "folder") {
-                            deleteRecursFunc(fileID);
-                        }
-                    }
-                }
-            };
-            deleteRecursFunc(action.payload.id);
-            state.trashItems = state.trashItems.filter((item) => {
-                if (item.id === action.payload.id) {
-                    item.status = false
-                    deleteFiles.push(item);
-                    return false;
-                }
-                return true;
-            });
-        },
-        restoreTrashItem(state, action:Action){
-            const restoreFiles:IItem[] = [];
-            const restoreRecursFunc = (fileId:number) => {
-                for (let i = 0; i < state.trashItems.length; i++) {
-                    if (Number(state.trashItems[i].parent)=== fileId) {
-                        const fileID = state.trashItems[i].id;
-                        const fileType = state.trashItems[i].type;
-                        const item = state.trashItems.splice(i, 1);
-                        console.log(item)
 
-                        restoreFiles.push(item[0]);
-                        i = i - 1;
-                        if (fileType === "folder") {
-                            restoreRecursFunc(fileID);
-                        }
-                    }
-                }
-            };
-            restoreRecursFunc(action.payload.id);
+            recursFunc(action.payload.id,state.trashItems);
             state.trashItems = state.trashItems.filter((item) => {
                 if (item.id === action.payload.id) {
                     item.status = false
-                    restoreFiles.push(item);
+                    restoreOrDeleteFiles.push(item);
                     return false;
                 }
                 return true;
             });
-            state.items = state.items.concat(restoreFiles)
+            restoreOrDeleteFiles = []
         },
+
+        restoreTrashItem(state, action:Action){
+
+           recursFunc(action.payload.id, state.trashItems);
+            state.trashItems = state.trashItems.filter((item) => {
+                if (item.id === action.payload.id) {
+                    item.status = false
+                    restoreOrDeleteFiles.push(item);
+                    return false;
+                }
+                return true;
+            });
+            state.items = state.items.concat(restoreOrDeleteFiles)
+            restoreOrDeleteFiles = []
+        },
+
         deleteTrashItems(state){
             state.trashItems = [];
         }
